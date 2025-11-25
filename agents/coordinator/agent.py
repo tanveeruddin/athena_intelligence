@@ -61,6 +61,12 @@ Example:
 - Message parts may include: {"data": {"task_id": "abc-123"}}
 - You should call: run_announcement_pipeline(asx_code="BHP", limit=5, task_id="abc-123")
 
+CRITICAL: After calling run_announcement_pipeline, you MUST provide a summary response to the user.
+- Summarize what was processed (number of announcements, recommendations, trading signals)
+- Include any relevant ticket IDs or approval URLs
+- Then STOP - do not wait for further input
+- Your response should be concise and inform the user that the pipeline has completed
+
 Use the run_announcement_pipeline tool to process announcements.
 Use the trading_agent sub-agent when trade execution with approval is needed.""",
     tools=skills,

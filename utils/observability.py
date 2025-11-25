@@ -97,7 +97,7 @@ def setup_phoenix_instrumentation(service_name: str) -> None:
         # This will automatically trace:
         # - Agent invocations
         # - LLM generation calls
-        # - Tool executions (FunctionTool, LongRunningFunctionTool)
+        # - Tool executions (FunctionTool)
         # - Sub-agent delegations
         GoogleADKInstrumentor().instrument(tracer_provider=trace_provider)
 
