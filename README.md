@@ -68,8 +68,6 @@ The system consists of **7 specialized A2A agents** orchestrated through a coord
 └──────────────────────────────────────────────────────────┘
 
 NOTE: Memory Agent (8004) is currently DISABLED for future roadmap
-NOTE: Trading Agent uses LongRunningFunctionTool for Human-in-the-Loop
-      (Based on Google's official A2A HTIL example pattern)
 ```
 
 ### Agent Specializations
@@ -141,7 +139,7 @@ NOTE: Trading Agent uses LongRunningFunctionTool for Human-in-the-Loop
 
 #### 6. **Trading Agent** (Port 8006 - A2A with HTIL)
 - **Role**: Paper trading with human-in-the-loop approval
-- **Key Innovation**: 🌟 **LongRunningFunctionTool Pattern for A2A Human-in-the-Loop**
+- **Key Innovation**: 🌟 **Human-in-the-Loop**
 - **Why This Approach**:
   - **True A2A architecture**: All 7 agents are remote services (scalable, fault-isolated)
   - **Clean separation**: Coordinator (root agent) has user access, Trading handles execution
@@ -197,7 +195,7 @@ sequenceDiagram
 
         alt BUY or SPECULATIVE BUY
             Coordinator->>Trading: A2A: Execute trade (HTIL)
-            Note over Trading: 🌟 LongRunningFunctionTool pauses
+            Note over Trading: 🌟
             Trading-->>Coordinator: {status: pending, ticket_id: xxx}
             Coordinator->>User: Confirm trade? (ticket: xxx)
             User->>Coordinator: Approved
@@ -412,7 +410,7 @@ python -m agents.scraper.main      # Port 8001
 python -m agents.analyzer.main     # Port 8002 (Gemini PDF API)
 python -m agents.stock.main        # Port 8003
 python -m agents.evaluation.main   # Port 8005
-python -m agents.trading.main      # Port 8006 (HTIL with LongRunningFunctionTool)
+python -m agents.trading.main      # Port 8006 (HTIL)
 
 # Streamlit Chat UI (optional)
 streamlit run chat_ui.py           # Port 8501
@@ -426,8 +424,7 @@ python approval_service.py         # Port 8888
 # Analyze BHP's last 5 announcements
 python scripts/trigger_pipeline.py \
     --asx-code BHP \
-    --limit 5 \
-    --price-sensitive
+    --limit 1
 
 # Expected output:
 # 🚀 Starting pipeline for BHP...

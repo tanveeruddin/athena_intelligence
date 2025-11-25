@@ -5,6 +5,7 @@ Provides JSON and text logging with MELT (Metrics, Events, Logs, Traces) support
 
 import sys
 import json
+import logging
 from pathlib import Path
 from typing import Dict, Any, Optional
 from loguru import logger
@@ -122,6 +123,11 @@ def setup_logging() -> None:
         retention="90 days",
         compression="zip",
     )
+    
+    logging.getLogger("opentelemetry").setLevel(logging.WARNING)
+    logging.getLogger("phoenix").setLevel(logging.WARNING)
+    logging.getLogger("openinference").setLevel(logging.WARNING)
+    logging.getLogger("grpc").setLevel(logging.WARNING)
 
     logger.info("Logging system initialized", log_level=settings.log_level, log_format=settings.log_format)
 

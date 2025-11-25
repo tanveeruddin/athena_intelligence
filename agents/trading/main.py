@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Trading Agent A2A Server - Serves the trading agent with LongRunningFunctionTool.
+Trading Agent A2A Server - Serves the trading agent.
 
 Runs as a separate A2A service on port 8006.
 """

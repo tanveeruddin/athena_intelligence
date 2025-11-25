@@ -13,15 +13,13 @@
 # limitations under the License.
 
 """
-Skills for Trading Agent using LongRunningFunctionTool pattern.
+Skills for Trading Agent.
 
-Implements human-in-the-loop approval workflow via A2A protocol.
+Implements human-in-the-loop approval workflow.
 """
 import uuid
 from typing import Any, Optional
 from datetime import datetime
-
-from google.adk.tools.tool_context import ToolContext
 
 from models.database import get_db_session
 from models.orm_models import TradingDecision
@@ -42,19 +40,17 @@ def execute_trade(
     sentiment: str,
     confidence_score: float,
     reasoning: str,
-    tool_context: ToolContext,
     announcement_id: Optional[str] = None,
     task_id: Optional[str] = None,
 ) -> dict[str, Any]:
     """
-    Execute a trade with human approval (LongRunningFunctionTool pattern).
+    Execute a trade with human approval (creates pending decision).
 
-    This function implements the A2A Human-in-the-Loop workflow:
+    This function implements the Human-in-the-Loop workflow:
     1. Creates a pending trading decision in the database
     2. Returns {"status": "pending", "ticket_id": "..."} immediately
-    3. Root agent surfaces this to human for approval
-    4. Root agent resumes this tool with approval decision
-    5. Executes trade if approved
+    3. Human approves/rejects via the approval UI
+    4. Approval service calls approve_trade to execute if approved
 
     Args:
         asx_code: Stock ticker (e.g., "BHP")
@@ -65,7 +61,6 @@ def execute_trade(
         sentiment: Sentiment (BULLISH/BEARISH/NEUTRAL)
         confidence_score: Confidence level (0-1)
         reasoning: Recommendation reasoning
-        tool_context: ToolContext for long-running tool (provided by ADK)
         announcement_id: Announcement ID (optional)
         task_id: The ID for the current request, used for logging.
 

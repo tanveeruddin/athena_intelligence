@@ -18,7 +18,6 @@ settings = get_settings()
 
 
 # Agent module paths
-# Trading agent now runs as proper A2A service with LongRunningFunctionTool
 AGENT_MODULES = {
     "coordinator": "agents.coordinator.main",
     "scraper": "agents.scraper.main",
@@ -201,16 +200,16 @@ Examples:
         print(f"  ✅ stock        (Port {settings.stock_agent_port}) - Market data fetching")
         print(f"  ⚠️  memory       (Port {settings.memory_agent_port}) - Memory management (DISABLED in pipeline)")
         print(f"  ✅ evaluation   (Port {settings.evaluation_agent_port}) - Quality assessment + recommendations")
-        print(f"  ✅ trading      (Port {settings.trading_agent_port}) - Trading with LongRunningFunctionTool (HTIL)")
+        print(f"  ✅ trading      (Port {settings.trading_agent_port}) - Trading with (HTIL)")
         print("\nCurrent Pipeline Flow:")
         print("  Scraper → Analyzer → Stock → Evaluation → Trading (via A2A)")
         print("  (Memory agent skipped in current pipeline)")
         print("\nArchitecture Notes:")
         print("  ✨ Coordinator = ROOT AGENT (has access to user for human approval)")
-        print("  ✨ Trading = REMOTE A2A AGENT (uses LongRunningFunctionTool)")
+        print("  ✨ Trading = REMOTE A2A AGENT")
         print("  ✨ When BUY signal detected:")
         print("     1. Coordinator delegates to Trading Agent via A2A")
-        print("     2. Trading Agent returns 'pending' status (LongRunningFunctionTool)")
+        print("     2. Trading Agent returns 'pending' status")
         print("     3. Coordinator surfaces approval request to user")
         print("     4. User approves/rejects via Coordinator")
         print("     5. Trading Agent executes paper trade if approved")
