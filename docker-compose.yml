@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # Phoenix - Observability and Tracing
+  phoenix:
+    image: arizephoenix/phoenix:latest
+    container_name: kaggle-phoenix
+    ports:
+      - "6006:6006"  # Phoenix UI
+      - "4317:4317"  # gRPC collector
+      - "4318:4318"  # HTTP collector
+    environment:
+      - PHOENIX_WORKING_DIR=/phoenix/data
+    volumes:
+      - phoenix_data:/phoenix/data
+    networks:
+      - kaggle-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6006/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  kaggle-network:
+    driver: bridge
+
+volumes:
+  phoenix_data:
+    driver: local
+
